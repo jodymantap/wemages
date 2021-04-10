@@ -3,7 +3,7 @@ import Link from 'next/link';
 import {useEffect} from 'react';
 
 
-function Navbar() {
+function Navbar({active}) {
     let [nav, setNav] = useState(false);
     let [isLogged, setIsLogged] = useState(false);
 
@@ -16,7 +16,9 @@ function Navbar() {
         <nav className="bg-white shadow-md lg:flex lg:items-center lg:justify-between">
             <div className="flex justify-between mx-5 items-center">
                 <div className="my-5 flex">
-                    <img className="w-12" src="https://drive.google.com/uc?export=view&id=1mq0ZoUA08EZWfHNHDnLqEzsnbTpPAtiF" alt=""/>
+                    <Link href="/">
+                    <img className="w-12 cursor-pointer" src="https://drive.google.com/uc?export=view&id=1mq0ZoUA08EZWfHNHDnLqEzsnbTpPAtiF" alt=""/>
+                    </Link>
                 </div>
                 <div className="my-6 flex">
                     {nav ? (
@@ -37,9 +39,8 @@ function Navbar() {
             <div className={`lg:flex mx-5 item-center ${nav ? "flex" : "hidden"}`}>
                 <div className="mb-5 lg:mb-0 text-green-600 font-medium lg:text-lg subpixel-antialiased">
                     
-                    <Link href="favorites" className="">Favorites</Link>
-                    <a className="mr-5 ml-5"><Link href="favorites" className="">|</Link></a>
-                    <Link href="favorites" className="">Contact Me</Link>
+                    <a className={`hover:bg-green-600 ${active} rounded-lg p-2 hover:text-white mr-5`}><Link href="favorites" className="">Favorites</Link></a>
+                    <a href="https://www.linkedin.com/in/jodypratama/" target="_blank" className="hover:bg-green-600 rounded-lg p-2 hover:text-white">Contact Me</a>
                 
                 </div>
             </div>

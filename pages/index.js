@@ -9,7 +9,7 @@ export default function Home() {
     <div className="font-bold text-blue-600">
       <Navbar/>
       <ToastContainer/>
-      <Card/>
+      <Card thumbnail="datum.thumbnailUrl"/>
     </div>
   )
 }

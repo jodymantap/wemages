@@ -6,79 +6,18 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function detail(paramsid) {
     const [oneData, setOneData] = useState([]);
-    const [username, setUsername] = useState("");
-    const [likers, setLikers] = useState("");
-    const [isClicked, setClick] = useState(false);
     useEffect( () => {
-        setUsername(localStorage.getItem("name"));
         axios.get(
         `https://jsonplaceholder.typicode.com/albums/1/photos?id=${paramsid.paramsid}`
         )
         .then(response => {
             setOneData(response.data[0]);
-            setLikers(response.data[0].likers);
         })
     }, [])
-
-    const likeit = async () => {
-
-        if (!likers.includes(username)) {
-        await fetch(`https://sheet.best/api/sheets/2f46a4fe-fa9e-4f51-912c-a37c375e23ed/${(paramsid.paramsid) - 1}`, {
-            method: "PUT",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                ava: oneData.ava,
-                cover: oneData.cover,
-                id: oneData.id,
-                likers: oneData.likers + "," + username,
-                likes: parseInt(oneData.likes) + 1,
-                story: oneData.story,
-                title: oneData.title,
-                writer: oneData.writer,
-            }),
-            })
-            .then((r) => r.json())
-            .catch();
-            await axios.get(
-                `https://sheet.best/api/sheets/2f46a4fe-fa9e-4f51-912c-a37c375e23ed/id/${paramsid.paramsid}`
-                )
-                .then(response => {
-                    // setOneData(response.data[0]);
-                    setLikers(response.data[0].likers);
-            })
-        }else{
-            await fetch(`https://sheet.best/api/sheets/2f46a4fe-fa9e-4f51-912c-a37c375e23ed/${(paramsid.paramsid) - 1}`, {
-            method: "PUT",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                ava: oneData.ava,
-                cover: oneData.cover,
-                id: oneData.id,
-                likers: oneData.likers.replace(","+username, ""),
-                likes: parseInt(oneData.likes) - 1,
-                story: oneData.story,
-                title: oneData.title,
-                writer: oneData.writer,
-            }),
-            })
-            .then((r) => r.json())
-            .catch();
-
-            await axios.get(
-                `https://sheet.best/api/sheets/2f46a4fe-fa9e-4f51-912c-a37c375e23ed/id/${paramsid.paramsid}`
-                )
-                .then(response => {
-                    // setOneData(response.data[0]);
-                    setLikers(response.data[0].likers);
-            })
-        }
+    const favorites = (url) => {
+        localStorage.setItem("fav", localStorage.getItem("fav") + ", " + url)
     }
+
     return (
         <div>
         <ToastContainer/>
@@ -98,7 +37,7 @@ function detail(paramsid) {
                     
                     <div className="flex mt-3 items-center justify justify-between">
                         <div className="flex">
-                            <svg name="love" onClick={() =>{ toast.success("Added to favorites"); likeit();}} className={`cursor-pointer h-6 w-6 focus:outline-none hover:text-pink-600`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <svg name="love" onClick={() =>{ toast.success("Added to favorites"); favorites(oneData.thumbnailUrl);}} className={`cursor-pointer h-6 w-6 focus:outline-none hover:text-pink-600`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
                             </svg>
                             <h1 className="ml-2">Add to favorites</h1>
