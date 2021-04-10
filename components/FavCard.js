@@ -21,7 +21,8 @@ function FavCard(thumbnail) {
     }, [])
 
     const unfavorites = (datum) => {
-        localStorage.setItem("fav", localStorage.getItem("fav").replace(datum + ", ", ""))
+        localStorage.setItem("fav", localStorage.getItem("fav").replace(datum + ", ", ""));
+        window.location.reload()
     }
        
     return (
